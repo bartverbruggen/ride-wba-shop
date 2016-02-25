@@ -1,0 +1,9 @@
+{
+    "dependencies": [
+        {
+          "interfaces": "ride\\library\\cms\\widget\\Widget",
+          "class": "ride\\controller\\widget\\CartWidget",
+          "id": "shop.cart"
+        }
+    ]
+}

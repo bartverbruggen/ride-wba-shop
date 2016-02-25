@@ -1,0 +1,304 @@
+<models>
+    <model name="Product" entryClass="ride\orm\entry\ProductEntry">
+        <field name="title" type="string" localized="true">
+            <option name="label.name" value="label.name"/>
+            <option name="scaffold.search" value="1"/>
+            <option name="scaffold.order" value="1"/>
+            <option name="scaffold.form.tab" value="general"/>
+
+            <validation name="required"/>
+        </field>
+        <field name="caption" type="string" localized="true">
+            <option name="label.name" value="label.caption"/>
+            <option name="label.description" value="description.caption"/>
+            <option name="scaffold.form.tab" value="general"/>
+        </field>
+        <field name="body" type="wysiwyg" localized="true">
+            <option name="label.name" value="label.body"/>
+            <option name="scaffold.form.tab" value="general"/>
+        </field>
+        <field name="brand" model="Brand" relation="belongsTo">
+            <option name="label.name" value="label.brand"/>
+            <option name="scaffold.form.type" value="select"/>
+            <option name="scaffold.form.tab" value="general"/>
+        </field>
+        <field name="images" model="Asset" relation="hasMany">
+            <option name="label.name" value="label.images"/>
+            <option name="scaffold.form.type" value="assets"/>
+            <option name="scaffold.form.tab" value="general"/>
+
+            <validation name="required"/>
+        </field>
+
+        <field name="price" type="float">
+            <option name="label.name" value="label.price"/>
+            <option name="label.description" value="description.price"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+        <field name="isNewArrival" type="boolean">
+            <option name="label.name" value="label.newarrival"/>
+            <option name="label.description" value="label.newarrival.description"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+        <field name="manageQuantityPerVariant" type="boolean">
+            <option name="label.name" value="label.quantity.management"/>
+            <option name="label.description" value="label.quantity.management.variant"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+        <field name="quantity" type="integer">
+            <option name="label.name" value="label.quantity"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+        <field name="weight" type="float">
+            <option name="label.name" value="label.weight"/>
+            <option name="label.description" value="description.weight"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+
+        <field name="VATRate" model="VATRate" relation="belongsTo">
+            <option name="label.name" value="label.vat.rate"/>
+            <option name="scaffold.form.type" value="option"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+
+            <validation name="required"/>
+        </field>
+
+        <field name="variants" model="ProductVariant" relation="hasMany">
+            <option name="label.name" value="label.variants"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+
+
+        <!-- ========= FORMAT ========= -->
+        <format name="title">{title}</format>
+        <format name="image">{images|first:image}</format>
+
+        <!-- ========= OPTIONS ========= -->
+        <option name="behaviour.date" value="true"/>
+        <option name="behaviour.log" value="true"/>
+        <option name="behaviour.slug" value="title"/>
+        <option name="behaviour.version" value="true"/>
+        <option name="order.field" value="title"/>
+        <option name="scaffold.expose" value="1"/>
+        <option name="scaffold.form.tabs" value="general,commerce"/>
+        <option name="scaffold.title" value="title.product"/>
+        <option name="json.api" value="products"/>
+    </model>
+    <model name="ProductVariant" entryClass="ride\orm\entry\ProductVariantEntry">
+        <field name="size" model="TaxonomyTerm" relation="hasMany" relationOrder="{taxonomyTerm.name} ASC">
+           <option name="label.name" value="label.size" />
+           <option name="scaffold.form.type" value="tags" />
+           <option name="taxonomy.id" value="2" />
+        </field>
+        <field name="color" model="TaxonomyTerm" relation="hasMany" relationOrder="{taxonomyTerm.name} ASC">
+           <option name="label.name" value="label.color" />
+           <option name="scaffold.form.type" value="tags" />
+           <option name="taxonomy.id" value="3" />
+        </field>
+        <field name="material" model="TaxonomyTerm" relation="hasMany" relationOrder="{taxonomyTerm.name} ASC">
+           <option name="label.name" value="label.material" />
+           <option name="scaffold.form.type" value="tags" />
+           <option name="taxonomy.id" value="4" />
+        </field>
+
+        <field name="price" type="float">
+            <option name="label.name" value="label.price"/>
+            <option name="label.description" value="description.price.variant"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+        <field name="quantity" type="integer">
+            <option name="label.name" value="label.quantity"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+        <field name="weight" type="float">
+            <option name="label.name" value="label.weight"/>
+            <option name="label.description" value="description.weight"/>
+            <option name="scaffold.form.tab" value="commerce"/>
+        </field>
+
+        <option name="scaffold.form.tabs" value="options,commerce"/>
+
+        <format name="title">{size} / {color} / {material}</format>
+    </model>
+    <model name="VATRate">
+        <field name="rate" type="integer">
+            <option name="label.name" value="label.vat.rate"/>
+        </field>
+
+        <format name="title">{rate}</format>
+
+        <option name="behaviour.date" value="true"/>
+        <option name="behaviour.log" value="true"/>
+        <option name="behaviour.slug" value="rate"/>
+        <option name="behaviour.version" value="true"/>
+        <option name="scaffold.expose" value="1"/>
+        <option name="scaffold.title" value="title.vat"/>
+    </model>
+    <model name="Brand">
+        <field name="title" type="string" localized="true">
+            <option name="label.name" value="label.name"/>
+            <option name="scaffold.search" value="1"/>
+            <option name="scaffold.order" value="1"/>
+            <option name="scaffold.form.tab" value="general"/>
+
+            <validation name="required"/>
+        </field>
+
+        <field name="body" type="wysiwyg" localized="true">
+            <option name="label.name" value="label.body"/>
+            <option name="scaffold.form.tab" value="general"/>
+        </field>
+
+        <field name="image" model="Asset" relation="belongsTo">
+            <option name="label.name" value="label.image"/>
+            <option name="scaffold.form.type" value="assets"/>
+            <option name="scaffold.form.tab" value="general"/>
+        </field>
+
+        <format name="title">{title}</format>
+        <format name="teaser">{body|truncate:100}</format>
+        <format name="image">{image.thumbnail}</format>
+
+        <option name="behaviour.date" value="true"/>
+        <option name="behaviour.log" value="true"/>
+        <option name="behaviour.slug" value="title"/>
+        <option name="behaviour.version" value="true"/>
+        <option name="scaffold.expose" value="1"/>
+        <option name="scaffold.title" value="title.brand"/>
+    </model>
+    <model name="Address">
+        <field name="street" type="string">
+            <option name="label.name" value="label.street"/>
+            <validation name="required"/>
+        </field>
+        <field name="number" type="string">
+            <option name="label.name" value="label.number"/>
+            <validation name="required"/>
+        </field>
+        <field name="postal" type="string">
+            <option name="label.name" value="label.postal"/>
+            <validation name="required"/>
+        </field>
+        <field name="city" type="string">
+            <option name="label.name" value="label.city"/>
+            <validation name="required"/>
+        </field>
+
+        <field name="isDefaultBilling" type="boolean">
+            <option name="label.name" value="label.address.default.billing"/>
+            <option name="label.description" value="label.address.default.billing.description"/>
+        </field>
+        <field name="isDefaultDelivery" type="boolean">
+            <option name="label.name" value="label.address.default.delivery"/>
+            <option name="label.description" value="label.address.default.delivery.description"/>
+        </field>
+
+        <format name="title">{street} {number}, {postal} {city}</format>
+
+        <option name="behaviour.date" value="true"/>
+        <option name="behaviour.log" value="true"/>
+        <option name="behaviour.version" value="true"/>
+        <option name="scaffold.title" value="title.address"/>
+    </model>
+    <model name="Order">
+        <field name="items" model="OrderItem" relation="hasMany">
+            <option name="label.name" value="label.item"/>
+            <option name="scaffold.form.type" value="select"/>
+        </field>
+
+        <field name="customer" model="Customer" relation="belongsTo">
+            <option name="label.name" value="label.customer"/>
+            <option name="scaffold.form.type" value="select"/>
+        </field>
+
+        <field name="customerName" type="string">
+            <option name="label.name" value="label.name.customer"/>
+        </field>
+        <field name="customerStreet" type="string">
+            <option name="label.name" value="label.street"/>
+        </field>
+        <field name="customerNumber" type="string">
+            <option name="label.name" value="label.number"/>
+        </field>
+        <field name="customerPostal" type="string">
+            <option name="label.name" value="label.postal"/>
+        </field>
+        <field name="customerCity" type="string">
+            <option name="label.name" value="label.city"/>
+        </field>
+
+        <field name="shippingCost" type="float">
+            <option name="label.name" value="label.cost.shipping"/>
+        </field>
+        <field name="discount" type="integer">
+            <option name="label.name" value="label.discount"/>
+        </field>
+        <field name="price" type="float">
+            <option name="label.name" value="label.price"/>
+        </field>
+
+        <format name="title">{id}: {customer.name}</format>
+        <format name="teaser">{dateAdded|date}</format>
+
+        <option name="behaviour.date" value="true"/>
+        <option name="behaviour.log" value="true"/>
+        <option name="behaviour.version" value="true"/>
+        <option name="scaffold.expose" value="1"/>
+        <option name="scaffold.title" value="title.orders"/>
+        <option name="json.api" value="orders"/>
+    </model>
+    <model name="OrderItem" modelClass="ride\orm\model\OrderItemModel">
+        <field name="product" model="Product" relation="belongsTo">
+            <option name="label.name" value="label.product"/>
+            <option name="scaffold.form.type" value="select"/>
+        </field>
+
+        <field name="amount" type="integer" default="1">
+            <option name="label.name" value="label.amount"/>
+        </field>
+
+        <field name="variant" model="ProductVariant" relation="belongsTo">
+            <option name="label.name" value="label.variant"/>
+        </field>
+
+        <!-- Add product name, price, vat, variant -->
+        <field name="productName" type="string">
+            <option name="label.name" value="label.name"/>
+        </field>
+        <field name="price" type="float">
+            <option name="label.name" value="label.price"/>
+        </field>
+        <field name="VATRate" type="integer">
+            <option name="label.name" value="label.vat.rate"/>
+        </field>
+
+        <format name="title">{productName}: {amount}</format>
+
+        <option name="scaffold.title" value="title.order.items"/>
+        <option name="json.api" value="order-items"/>
+    </model>
+    <model name="Customer">
+        <field name="name" type="string">
+            <option name="label.name" value="label.name"/>
+            <validation name="required"/>
+        </field>
+        <field name="addresses" model="Address" relation="hasMany">
+            <option name="label.name" value="label.addresses"/>
+        </field>
+        <field name="user" model="User" relation="belongsTo" dependant="true">
+            <option name="label.name" value="label.user"/>
+            <option name="scaffold.form.type" value="select"/>
+
+            <validator name="required"/>
+        </field>
+
+        <format name="title">{name}</format>
+
+        <option name="behaviour.date" value="true"/>
+        <option name="behaviour.log" value="true"/>
+        <option name="behaviour.slug" value="name"/>
+        <option name="behaviour.version" value="true"/>
+        <option name="scaffold.expose" value="1"/>
+        <option name="scaffold.title" value="title.customer"/>
+    </model>
+</models>
